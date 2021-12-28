@@ -36,10 +36,7 @@ AuthenticationApi.getCurrentUser().then((resp) => {
 
     client.on("connect", function (connection) {
       console.log("WebSocket Client Connected");
-      if (changeStatus) {
-        standardFull = true;
-        UserApi.updateUser(currentUser.id, { status : "ask me", statusDescription : (eventName + " ON STANDBY")});
-      }
+
       connection.on("error", function (error) {
         console.log("Connection Error: " + error.toString());
       });
