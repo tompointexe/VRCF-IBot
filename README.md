@@ -6,7 +6,7 @@ Because vrchat team was to selfish to aprouve it, so use it for small to medium 
 Your world needs to be in invite plus for the bot to work, will do a detail how to tutorial soon
 
 
-Made with (vrchat api)[https://github.com/vrchatapi] package
+Made with [VRChat API](https://github.com/vrchatapi) package
 
 # Disclaimer !!
 
