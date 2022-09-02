@@ -1,11 +1,15 @@
 const WebSocketClient = require("websocket").client;
 const vrchat = require("vrchat");
+const throttledQueue = require('throttled-queue');
 require('log-timestamp');
+
+//CONFIGURABLE
+let userAgent     = "Awesome Friend Bot"
 
 //LOGIN DATA
 const configuration = new vrchat.Configuration({
-  username: "name",
-  password: "pass",
+  username: "UserName",
+  password: "MyVerySecurePassword"
 });
 
 //APIS
@@ -15,14 +19,15 @@ const WorldApi = new vrchat.WorldsApi(configuration);
 const UserApi = new vrchat.UsersApi(configuration);
 let currentUser;
 let vrcHeaders; //Used to connect
+const throttle = throttledQueue(3, 60000, true); // Adding RateLimit, 3 request per minutes
 
-//CONFIGURABLE
-let userAgent     = "AwsomeAutoFriendBot"
 //CONNECTION CODE
 AuthenticationApi.getCurrentUser().then((resp) => {
   currentUser = resp.data;
   console.log("Logged in : " + currentUser.displayName)
-  AuthenticationApi.verifyAuthToken().then((resp) => {
+  console.log("0.1.6");
+  throttle(() => {
+	AuthenticationApi.verifyAuthToken().then((resp) => {
     console.log(`Got auth cookie`);
     vrcHeaders = {
       "User-Agent": userAgent,
@@ -88,6 +93,7 @@ AuthenticationApi.getCurrentUser().then((resp) => {
       }
     );
   });
+  });	
 });
 
 //////////////////////////////////////////////////////
@@ -105,7 +111,7 @@ function HandleNotification(notification) {
 //Accepts friendrequest
 function AcceptFriendRequest(data) {
   console.log("Recieved friend request from " + data.senderUsername);
-  NotificationsApi.acceptFriendRequest(data.id).then(() => {
-    console.log("Accepted friend request from " + data.senderUsername);
-  });
+	throttle(() => {
+		NotificationsApi.acceptFriendRequest(data.id).then(() => {console.log("Accepted friend request from " + data.senderUsername);}).catch(err=>{console.log(err)});
+	});		
 }
