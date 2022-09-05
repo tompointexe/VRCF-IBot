@@ -1,8 +1,6 @@
 # VRCF-IBot
 a random vrchat friend &amp; invite bot
 
-Your world needs to be in invite plus for the bot to work, will do a detail how to tutorial soon
-
 
 Made with [VRChat API](https://github.com/vrchatapi) package
 
