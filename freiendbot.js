@@ -5,6 +5,7 @@ require('log-timestamp');
 
 //CONFIGURABLE
 let userAgent     = "Awesome Friend Bot"
+const instanceid = "YOUR INSTANCE ID HERE" //wrld:instance format
 
 //LOGIN DATA
 const configuration = new vrchat.Configuration({
@@ -105,6 +106,9 @@ function HandleNotification(notification) {
     case "friendRequest":
       AcceptFriendRequest(notification);
       break;
+    case "requestInvite":
+      SendInvite(notification);
+      break;
   }
 }
 
@@ -113,5 +117,12 @@ function AcceptFriendRequest(data) {
   console.log("Recieved friend request from " + data.senderUsername);
 	throttle(() => {
 		NotificationsApi.acceptFriendRequest(data.id).then(() => {console.log("Accepted friend request from " + data.senderUsername);}).catch(err=>{console.log(err)});
-	});		
+	});
+	
+//Sends invite to world
+function SendInvite(data) {
+  console.log("Recieved invite request from " + data.senderUsername);
+  throttle(() => {
+      InviteApi.inviteUser(data.senderUserId, { instanceId: instanceid }).then(() => {console.log("Accepted invite request from " + data.senderUsername);}).catch(err=>{console.log(err)});
+  });	
 }
