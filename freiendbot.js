@@ -6,6 +6,10 @@ require('log-timestamp');
 //CONFIGURABLE
 let userAgent     = "Awesome Friend Bot"
 const instanceid = "YOUR INSTANCE ID HERE" //wrld:instance format
+const whitelist = [
+	'user1',
+	'user2'
+	];
 
 //LOGIN DATA
 const configuration = new vrchat.Configuration({
@@ -123,6 +127,12 @@ function AcceptFriendRequest(data) {
 function SendInvite(data) {
   console.log("Recieved invite request from " + data.senderUsername);
   throttle(() => {
+    //check if user is in whitelist
+    if(whitelist.includes(data.senderUsername)) {
       InviteApi.inviteUser(data.senderUserId, { instanceId: instanceid }).then(() => {console.log("Accepted invite request from " + data.senderUsername);}).catch(err=>{console.log(err)});
+    }
+    else{
+      console.log("User " + data.senderUsername + " is not in whitelist");
+    }
   });	
 }
