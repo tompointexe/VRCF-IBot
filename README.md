@@ -1,6 +1,8 @@
 # VRCF-IBot
 a random vrchat friend &amp; invite bot
 
+THIS PROGRAM IS NOT COMPATIBLE WITH THE NEW API CHANGES USE AT YOUR OWN RISK
+
 
 Made with [VRChat API](https://github.com/vrchatapi) package
 
